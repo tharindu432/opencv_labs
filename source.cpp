@@ -97,15 +97,48 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	IplImage* blue = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 3);
+	IplImage* green = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 3);
+	IplImage* red = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 3);
+
+	uchar* dataB = (uchar*)blue->imageData;
+	uchar* dataG = (uchar*)green->imageData;
+	uchar* dataR = (uchar*)red->imageData;
+
+
+	//Split BGR image into 3 channels
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			dataB[i * widthstep + j * channels] = data[i * widthstep + j * channels];
+			dataB[i * widthstep + j * channels + 1] = 0;
+			dataB[i * widthstep + j * channels + 2] = 0;
+
+			dataG[i * widthstep + j * channels] = 0;
+			dataG[i * widthstep + j * channels + 1] = data[i * widthstep + j * channels];
+			dataG[i * widthstep + j * channels + 2] = 0;
+
+			dataR[i * widthstep + j * channels] = 0;
+			dataR[i * widthstep + j * channels + 1] = 0;
+			dataR[i * widthstep + j * channels + 2] = data[i * widthstep + j * channels];
+		}
+	}
+
 
 	cvNamedWindow("Image");
 	cvShowImage("Image", img);
 	cvNamedWindow("GrayImage");
 	cvShowImage("GrayImage", gray_img);
+	
+	cvNamedWindow("Blue");
+	cvShowImage("Blue", blue);
+
+	cvNamedWindow("Green");
+	cvShowImage("Green", green);
+
+	cvNamedWindow("Red");
+	cvShowImage("Red", red);
+
 	cvWaitKey(0);
-	cvDestroyWindow("Image");
-	cvReleaseImage(&img);
-	cvDestroyWindow("GrayImage");
-	cvReleaseImage(&gray_img);
+	cvDestroyAllWindows();
 	return 0;
 }
