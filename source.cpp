@@ -69,6 +69,24 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	//convert grayscale image to binary image
+	//160 is the threshold value
+	for (int i = 0;i < height;i++)
+	{
+		for (int j = 0;j < width;j++)
+		{
+			if (gray_data[i * gray_widthstep + j * gray_channels] > 160)
+			{
+				gray_data[i * gray_widthstep + j * gray_channels] = 255;
+			}
+			else
+			{
+				gray_data[i * gray_widthstep + j * gray_channels] = 0;
+			}
+
+		}
+	}
+
 	cvNamedWindow("Image");
 	cvShowImage("Image", img);
 	cvNamedWindow("GrayImage");
