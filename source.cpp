@@ -56,7 +56,18 @@ int main(int argc, char* argv[])
 
 	//convert BGR  image to grayscale image
 	IplImage* gray_img = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 1);
+	uchar* gray_data = (uchar*)gray_img->imageData;
+	int gray_widthstep = gray_img->widthStep;
+	int gray_channels = gray_img->nChannels;
 
+	for (int i = 0;i < height;i++)
+	{
+		for (int j = 0;j < width;j++)
+		{
+			gray_data[i * gray_widthstep + j * gray_channels] = data[i * widthstep + j * channels] * 0.1140 + data[i * widthstep + j * channels + 1] * 0.5870 + data[i * widthstep + j * channels + 2] * 0.2989;
+
+		}
+	}
 
 	cvNamedWindow("Image");
 	cvShowImage("Image", img);
