@@ -87,6 +87,17 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	//Invert BGR
+
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			data[i * widthstep + j * channels] = 255 - data[i * widthstep + j * channels];
+			data[i * widthstep + j * channels + 1] = 255 - data[i * widthstep + j * channels + 1];
+			data[i * widthstep + j * channels + 2] = 255 - data[i * widthstep + j * channels + 2];
+		}
+	}
+
+
 	cvNamedWindow("Image");
 	cvShowImage("Image", img);
 	cvNamedWindow("GrayImage");
